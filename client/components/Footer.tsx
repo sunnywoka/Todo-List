@@ -1,10 +1,4 @@
 function Footer() {
-  const data = [
-    { id: 1, task_details: 'a good job', priority: 3, completed: true },
-    { id: 2, task_details: 'a bad job', priority: 8, completed: false },
-    { id: 3, task_details: 'Trello', priority: 1, completed: false },
-  ]
-
   return (
     <>
       <span className="todo-count">
