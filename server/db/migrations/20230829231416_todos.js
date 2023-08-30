@@ -8,5 +8,5 @@ export function up(knex) {
 }
 
 export function down(knex) {
-  return knex.schema.createTable('todos')
+  return knex.schema.dropTable('todos')
 }

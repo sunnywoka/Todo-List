@@ -14,12 +14,12 @@ export function deleteTodo(id: number, db = connection): Promise<Todo> {
 }
 export function updateTodo(
   id: number,
-  updatedTodo: NewTodo,
+  updatedTodo: string,
   db = connection
 ): Promise<Todo> {
-  return db<Todo[]>('todos')
-    .where('id', id)
-    .update('task_details', updatedTodo.task_details)
-    .update('priority', updatedTodo.priority)
-    .update('completed', updatedTodo.completed)
+  console.log(updatedTodo)
+
+  return db('todos').where('id', id).update('task_details', updatedTodo)
+  //.update('priority', updatedTodo.priority)
+  //.update('completed', updatedTodo.completed)
 }

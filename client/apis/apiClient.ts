@@ -17,7 +17,6 @@ export async function addTodo(todo: NewTodo) {
 }
 
 export async function updateTodo(todo: Todo) {
-  await request
-    .put(todoUrl + `/${todo.id}`)
-    .send({ task_details: todo.task_details })
+  await request.patch(todoUrl + `/${todo.id}`).send(todo)
+  //console.log(todo.task_details)
 }

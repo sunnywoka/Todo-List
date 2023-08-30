@@ -1,25 +1,34 @@
 import { useState } from 'react'
 import useTodos from './useTodos'
+import { Todo } from '../../models/Todo'
 
 function AllTodos() {
   const alltodos = useTodos().allTodos
   const deleteTodo = useTodos().mutationDelete
   const updateTodo = useTodos().mutationUpdate
 
-  const [isEdit, setIsEdit] = useState(false)
+  const [isEdit, setIsEdit] = useState(0)
+  const [input, setInput] = useState('')
 
-  function handleEdit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setIsEdit(() => true)
-    const form = new FormData(e.currentTarget)
-    const editData = form.get('edit')?.valueOf() as string
-    console.log(editData)
-    // updateTodo.mutate({ editData })
-    setIsEdit(() => false)
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Escape') {
+      setIsEdit(0)
+      setInput(input)
+    }
+    if (e.key === 'Enter') {
+      updateTodo.mutate({
+        id: 1,
+        task_details: input,
+        priority: 1,
+        completed: false,
+      } as Todo)
+      setInput('')
+      setIsEdit(0)
+    }
   }
 
-  function handleStartEdit() {
-    setIsEdit(() => true)
+  function handleStartEdit(id: number) {
+    setIsEdit(id)
   }
 
   return (
@@ -35,15 +44,22 @@ function AllTodos() {
             <div className="view">
               <input className="toggle" type="checkbox" />
 
-              <label key={todo.id} onDoubleClick={handleStartEdit}>
-                {/* {!isEdit ? (
+              <label
+                key={todo.id}
+                onDoubleClick={() => handleStartEdit(todo.id)}
+              >
+                {isEdit !== todo.id ? (
                   todo.task_details
                 ) : (
-                  <form onSubmit={handleEdit}>
-                    <input className="edit" value="Create a TodoMVC template" />
-                  </form>
-                )} */}
-                {todo.task_details}
+                  <input
+                    className="new-todo"
+                    placeholder="What needs to be changed?"
+                    autoFocus={true}
+                    onKeyDown={handleKeyDown}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                  />
+                )}
               </label>
 
               <button
@@ -51,10 +67,6 @@ function AllTodos() {
                 onClick={() => deleteTodo.mutate(todo.id)}
               ></button>
             </div>
-
-            <form onSubmit={handleEdit}>
-              <input className="edit" value="Create a TodoMVC template" />
-            </form>
           </li>
         ))}
       </ul>
