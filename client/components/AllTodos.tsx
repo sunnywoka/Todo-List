@@ -10,14 +10,17 @@ function AllTodos() {
   const [isEdit, setIsEdit] = useState(0)
   const [input, setInput] = useState('')
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (
+    id: number,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (e.key === 'Escape') {
       setIsEdit(0)
       setInput(input)
     }
     if (e.key === 'Enter') {
       updateTodo.mutate({
-        id: 1,
+        id: id,
         task_details: input,
         priority: 1,
         completed: false,
@@ -55,7 +58,7 @@ function AllTodos() {
                     className="new-todo"
                     placeholder="What needs to be changed?"
                     autoFocus={true}
-                    onKeyDown={handleKeyDown}
+                    onKeyDown={(event) => handleKeyDown(todo.id, event)}
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                   />
