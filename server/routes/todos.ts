@@ -1,5 +1,5 @@
 import express from 'express'
-import { getTodos, addTodo } from '../db/db'
+import { getTodos, addTodo, deleteTodo } from '../db/db'
 
 const router = express.Router()
 
@@ -17,6 +17,16 @@ router.post('/newtodo', async (req, res) => {
     const newTodo = req.body
     await addTodo(newTodo)
     res.sendStatus(201)
+  } catch (error) {
+    if (error instanceof Error) res.status(500).send(error.message)
+  }
+})
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+    await deleteTodo(Number(id))
+    res.sendStatus(200)
   } catch (error) {
     if (error instanceof Error) res.status(500).send(error.message)
   }

@@ -8,3 +8,7 @@ export function getTodos(db = connection): Promise<Todo[]> {
 export function addTodo(todo: NewTodo, db = connection): Promise<NewTodo> {
   return db<Todo>('todos').insert(todo)
 }
+
+export function deleteTodo(id: number, db = connection): Promise<Todo> {
+  return db<Todo>('todos').where('id', id).delete()
+}
