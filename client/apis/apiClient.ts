@@ -16,6 +16,8 @@ export async function addTodo(todo: NewTodo) {
   await request.post(todoUrl).send(todo)
 }
 
-export async function updateTodo(id: number, todo: NewTodo) {
-  await request.put(todoUrl + `/${id}`).send(todo)
+export async function updateTodo(todo: Todo) {
+  await request
+    .put(todoUrl + `/${todo.id}`)
+    .send({ task_details: todo.task_details })
 }
