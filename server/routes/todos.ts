@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.post('/newtodo', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const newTodo = req.body
     await addTodo(newTodo)

@@ -8,14 +8,14 @@ export async function fetchTodos() {
   return res.body as Todo[]
 }
 
-export async function deleteWidget(id: number) {
+export async function deleteTodo(id: number) {
   await request.delete(todoUrl + `${id}`)
 }
 
-export async function addWidget(widget: NewTodo) {
-  await request.post(todoUrl).send(widget)
+export async function addTodo(todo: NewTodo) {
+  await request.post(todoUrl).send(todo)
 }
 
-export async function updateWidget(id: number, widget: NewTodo) {
-  await request.put(todoUrl + `${id}`).send(widget)
+export async function updateTodo(id: number, todo: NewTodo) {
+  await request.put(todoUrl + `${id}`).send(todo)
 }
