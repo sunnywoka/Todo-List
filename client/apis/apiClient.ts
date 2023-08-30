@@ -9,7 +9,7 @@ export async function fetchTodos() {
 }
 
 export async function deleteTodo(id: number) {
-  await request.delete(todoUrl + `${id}`)
+  await request.delete(todoUrl + `/${id}`)
 }
 
 export async function addTodo(todo: NewTodo) {
@@ -17,5 +17,5 @@ export async function addTodo(todo: NewTodo) {
 }
 
 export async function updateTodo(id: number, todo: NewTodo) {
-  await request.put(todoUrl + `${id}`).send(todo)
+  await request.put(todoUrl + `/${id}`).send(todo)
 }

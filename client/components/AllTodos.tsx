@@ -2,6 +2,7 @@ import useTodos from './useTodos'
 
 function AllTodos() {
   const alltodos = useTodos().allTodos
+  const deleteTodo = useTodos().mutationDelete
 
   return (
     <>
@@ -16,7 +17,10 @@ function AllTodos() {
             <div className="view">
               <input className="toggle" type="checkbox" />
               <label key={todo.id}>{todo.task_details}</label>
-              <button className="destroy"></button>
+              <button
+                className="destroy"
+                onClick={() => deleteTodo.mutate(todo.id)}
+              ></button>
             </div>
             <input className="edit" value="Create a TodoMVC template" />
           </li>
