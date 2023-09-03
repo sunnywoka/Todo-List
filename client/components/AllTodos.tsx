@@ -1,11 +1,22 @@
 import { useState } from 'react'
 import useTodos from './useTodos'
 import { Todo } from '../../models/Todo'
+import { fetchTodos } from '../apis/apiClient'
+import { useQuery } from '@tanstack/react-query'
 
-function AllTodos() {
-  const alltodos = useTodos().allTodos
+interface Props {
+  param: string
+}
+
+function AllTodos(props: Props) {
+  const { data, isLoading, isError } = useQuery(['todos', props.param], () =>
+    fetchTodos(props.param as string)
+  )
+
+  //const alltodos = useTodos().allTodos
   const deleteTodo = useTodos().mutationDelete
   const updateTodo = useTodos().mutationUpdate
+  const completeTodo = useTodos().mutationComplete
 
   const [isEdit, setIsEdit] = useState(0)
   const [input, setInput] = useState('')
@@ -34,18 +45,29 @@ function AllTodos() {
     setIsEdit(id)
   }
 
+  function handleCompleteTodo(todo: Todo) {
+    completeTodo.mutate(todo)
+  }
+
   return (
     <>
+      {isLoading ? <p>Loading ... Please wait</p> : ''}
+      {isError ? <p>Something went wrong</p> : ''}
       <input id="toggle-all" className="toggle-all" type="checkbox" />
       <label htmlFor="toggle-all">Mark all as complete</label>
       <ul className="todo-list">
-        {alltodos.data?.map((todo) => (
+        {data?.map((todo) => (
           <li
             key={todo.id}
             className={todo.completed == true ? 'completed' : ''}
           >
             <div className="view">
-              <input className="toggle" type="checkbox" />
+              <input
+                className="toggle"
+                type="checkbox"
+                onChange={() => handleCompleteTodo(todo)}
+                checked={todo.completed}
+              />
 
               <label
                 key={todo.id}

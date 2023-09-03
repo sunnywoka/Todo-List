@@ -3,9 +3,20 @@ import request from 'superagent'
 import { Todo, NewTodo } from '../../models/Todo'
 const todoUrl = '/api/v1/todos'
 
-export async function fetchTodos() {
-  const res = await request.get(todoUrl)
-  return res.body as Todo[]
+export async function fetchTodos(param: string) {
+  if (param == 'all') {
+    const res = await request.get(todoUrl)
+    return res.body as Todo[]
+  } else if (param == 'active') {
+    const res = await request.get(todoUrl + '/active')
+    return res.body as Todo[]
+  } else if (param == 'completed') {
+    const res = await request.get(todoUrl + '/completed')
+    return res.body as Todo[]
+  } else {
+    const res = await request.get(todoUrl)
+    return res.body as Todo[]
+  }
 }
 
 export async function deleteTodo(id: number) {
@@ -20,12 +31,10 @@ export async function updateTodo(todo: Todo) {
   await request.patch(todoUrl + `/${todo.id}`).send(todo)
 }
 
-export async function fetchActiveTodo(todo: Todo) {
-  const res = await request.get(todoUrl + '/active')
-  return res.body as Todo[]
+export async function completeTodo(todo: Todo) {
+  await request.patch(todoUrl + `/complete/${todo.id}`).send(todo)
 }
 
-export async function fetchCompletedTodo(todo: Todo) {
-  const res = await request.get(todoUrl + '/completed')
-  return res.body as Todo[]
+export async function deleteCompletedTodo() {
+  await request.delete(todoUrl)
 }

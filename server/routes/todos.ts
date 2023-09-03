@@ -6,6 +6,8 @@ import {
   updateTodo,
   getActiveTodos,
   getCompletedTodos,
+  completeTodo,
+  deleteCompletedTodos,
 } from '../db/db'
 
 const router = express.Router()
@@ -65,6 +67,26 @@ router.get('/completed', async (req, res) => {
   try {
     const todos = await getCompletedTodos()
     res.json(todos)
+  } catch (error) {
+    if (error instanceof Error) res.status(500).send(error.message)
+  }
+})
+
+router.patch('/complete/:id', async (req, res) => {
+  try {
+    const id = Number(req.params.id)
+    const complete = req.body.completed
+    await completeTodo(id, complete)
+    res.sendStatus(200)
+  } catch (error) {
+    if (error instanceof Error) res.status(500).send(error.message)
+  }
+})
+
+router.delete('/', async (req, res) => {
+  try {
+    await deleteCompletedTodos()
+    res.sendStatus(200)
   } catch (error) {
     if (error instanceof Error) res.status(500).send(error.message)
   }

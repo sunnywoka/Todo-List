@@ -27,3 +27,15 @@ export function getActiveTodos(db = connection): Promise<Todo[]> {
 export function getCompletedTodos(db = connection): Promise<Todo[]> {
   return db('todos').where('completed', true).select()
 }
+
+export function deleteCompletedTodos(db = connection): Promise<Todo[]> {
+  return db('todos').where('completed', true).delete()
+}
+
+export function completeTodo(
+  id: number,
+  complete: boolean,
+  db = connection
+): Promise<Todo> {
+  return db('todos').where('id', id).update('completed', !complete)
+}
