@@ -18,5 +18,14 @@ export async function addTodo(todo: NewTodo) {
 
 export async function updateTodo(todo: Todo) {
   await request.patch(todoUrl + `/${todo.id}`).send(todo)
-  //console.log(todo.task_details)
+}
+
+export async function fetchActiveTodo(todo: Todo) {
+  const res = await request.get(todoUrl + '/active')
+  return res.body as Todo[]
+}
+
+export async function fetchCompletedTodo(todo: Todo) {
+  const res = await request.get(todoUrl + '/completed')
+  return res.body as Todo[]
 }

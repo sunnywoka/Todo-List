@@ -1,8 +1,14 @@
+import useTodos from './useTodos'
+
 function Footer() {
+  const alltodos = useTodos().allTodos
   return (
     <>
       <span className="todo-count">
-        <strong>0</strong> item left
+        <strong>
+          {alltodos.data?.filter((todo) => todo.completed == false).length}
+        </strong>{' '}
+        item left
       </span>
 
       <ul className="filters">

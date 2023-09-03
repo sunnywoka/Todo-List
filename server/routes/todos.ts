@@ -1,5 +1,12 @@
 import express from 'express'
-import { getTodos, addTodo, deleteTodo, updateTodo } from '../db/db'
+import {
+  getTodos,
+  addTodo,
+  deleteTodo,
+  updateTodo,
+  getActiveTodos,
+  getCompletedTodos,
+} from '../db/db'
 
 const router = express.Router()
 
@@ -40,6 +47,24 @@ router.patch('/:id', async (req, res) => {
     await updateTodo(id, editedTodo)
     //console.log(editedTodo)
     res.sendStatus(200)
+  } catch (error) {
+    if (error instanceof Error) res.status(500).send(error.message)
+  }
+})
+
+router.get('/active', async (req, res) => {
+  try {
+    const todos = await getActiveTodos()
+    res.json(todos)
+  } catch (error) {
+    if (error instanceof Error) res.status(500).send(error.message)
+  }
+})
+
+router.get('/completed', async (req, res) => {
+  try {
+    const todos = await getCompletedTodos()
+    res.json(todos)
   } catch (error) {
     if (error instanceof Error) res.status(500).send(error.message)
   }

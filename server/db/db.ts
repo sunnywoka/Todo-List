@@ -17,9 +17,13 @@ export function updateTodo(
   updatedTodo: string,
   db = connection
 ): Promise<Todo> {
-  // console.log(updatedTodo)
-  // console.log(id)
   return db('todos').where('id', id).update('task_details', updatedTodo)
-  //.update('priority', updatedTodo.priority)
-  //.update('completed', updatedTodo.completed)
+}
+
+export function getActiveTodos(db = connection): Promise<Todo[]> {
+  return db('todos').where('completed', false).select()
+}
+
+export function getCompletedTodos(db = connection): Promise<Todo[]> {
+  return db('todos').where('completed', true).select()
 }
