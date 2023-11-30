@@ -5,11 +5,7 @@ import dotenv from 'dotenv'
 const __filename = URL.fileURLToPath(import.meta.url)
 const __dirname = Path.dirname(__filename)
 
-if (process.env.NODE_ENV === 'production') {
-  dotenv.config()
-} else {
-  dotenv.config({ path: Path.join(__dirname, '../../.env') })
-}
+dotenv.config({ path: Path.join(__dirname, '../../.env') })
 
 export default {
   development: {
@@ -23,22 +19,22 @@ export default {
     },
   },
 
-  // test: {
-  //   client: 'sqlite3',
-  //   useNullAsDefault: true,
-  //   connection: {
-  //     filename: ':memory:',
-  //   },
-  //   migrations: {
-  //     directory: Path.join(__dirname, 'migrations'),
-  //   },
-  //   seeds: {
-  //     directory: Path.join(__dirname, 'seeds'),
-  //   },
-  //   pool: {
-  //     afterCreate: (conn, cb) => conn.run('PRAGMA foreign_keys = ON', cb),
-  //   },
-  // },
+  test: {
+    client: 'sqlite3',
+    useNullAsDefault: true,
+    connection: {
+      filename: ':memory:',
+    },
+    migrations: {
+      directory: Path.join(__dirname, 'migrations'),
+    },
+    seeds: {
+      directory: Path.join(__dirname, 'seeds'),
+    },
+    pool: {
+      afterCreate: (conn, cb) => conn.run('PRAGMA foreign_keys = ON', cb),
+    },
+  },
 
   production: {
     client: 'pg',
@@ -46,9 +42,6 @@ export default {
     connection: {
       connectionString: process.env.DATABASE_URL,
       ssl: { rejectUnauthorized: false },
-    },
-    migrations: {
-      directory: Path.join(__dirname, 'migrations'),
     },
   },
 }
