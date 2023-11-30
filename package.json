@@ -66,6 +66,7 @@
     "vitest": "^0.34.1"
   },
   "dependencies": {
+    "dotenv": "^16.3.1",
     "express": "^4.17.2",
     "knex": "^2.5.1",
     "pg": "^8.11.3",
